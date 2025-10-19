@@ -1,6 +1,6 @@
-# ChatGPT Apps SDK Boilerplate
+# ChatGPT Apps SDK - TypeScript/Node Boilerplate
 
-A ready-to-use template for building custom ChatGPT apps with interactive widgets using the MCP (Model Context Protocol) and OpenAI Apps SDK.
+A ready-to-use TypeScript/Node.js template for building custom ChatGPT apps with interactive widgets using the MCP (Model Context Protocol) and OpenAI Apps SDK.
 
 ## Quick Start (5 minutes)
 
