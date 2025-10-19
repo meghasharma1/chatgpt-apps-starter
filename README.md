@@ -1,186 +1,256 @@
-# Apps SDK Examples Gallery
+# ChatGPT Apps SDK Boilerplate
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+A ready-to-use template for building custom ChatGPT apps with interactive widgets using the MCP (Model Context Protocol) and OpenAI Apps SDK.
 
-This repository showcases example UI components to be used with the Apps SDK, as well as example MCP servers that expose a collection of components as tools.
-It is meant to be used as a starting point and source of inspiration to build your own apps for ChatGPT.
+## Quick Start (5 minutes)
 
-## MCP + Apps SDK overview
+Get your app running in ChatGPT in 5 steps:
 
-The Model Context Protocol (MCP) is an open specification for connecting large language model clients to external tools, data, and user interfaces. An MCP server exposes tools that a model can call during a conversation and returns results according to the tool contracts. Those results can include extra metadata—such as inline HTML—that the Apps SDK uses to render rich UI components (widgets) alongside assistant messages.
-
-Within the Apps SDK, MCP keeps the server, model, and UI in sync. By standardizing the wire format, authentication, and metadata, it lets ChatGPT reason about your connector the same way it reasons about built-in tools. A minimal MCP integration for Apps SDK implements three capabilities:
-
-1. **List tools** – Your server advertises the tools it supports, including their JSON Schema input/output contracts and optional annotations (for example, `readOnlyHint`).
-2. **Call tools** – When a model selects a tool, it issues a `call_tool` request with arguments that match the user intent. Your server executes the action and returns structured content the model can parse.
-3. **Return widgets** – Alongside structured content, return embedded resources in the response metadata so the Apps SDK can render the interface inline in the Apps SDK client (ChatGPT).
-
-Because the protocol is transport agnostic, you can host the server over Server-Sent Events or streaming HTTP—Apps SDK supports both.
-
-The MCP servers in this demo highlight how each tool can light up widgets by combining structured payloads with `_meta.openai/outputTemplate` metadata returned from the MCP servers.
-
-## Repository structure
-
-- `src/` – Source for each widget example.
-- `assets/` – Generated HTML, JS, and CSS bundles after running the build step.
-- `pizzaz_server_node/` – MCP server implemented with the official TypeScript SDK.
-- `pizzaz_server_python/` – Python MCP server that returns the Pizzaz widgets.
-- `solar-system_server_python/` – Python MCP server for the 3D solar system widget.
-- `build-all.mts` – Vite build orchestrator that produces hashed bundles for every widget entrypoint.
-
-## Prerequisites
-
-- Node.js 18+
-- pnpm (recommended) or npm/yarn
-- Python 3.10+ (for the Python MCP server)
-
-## Install dependencies
-
-Clone the repository and install the workspace dependencies:
-
+### 1. Install Dependencies
 ```bash
 pnpm install
 ```
 
-> Using npm or yarn? Install the root dependencies with your preferred client and adjust the commands below accordingly.
-
-## Build the components gallery
-
-The components are bundled into standalone assets that the MCP servers serve as reusable UI resources.
-
-### For local development (default):
-
+### 2. Build the Widgets
 ```bash
 pnpm run build
 ```
 
-This builds assets that reference `http://localhost:4444` for local testing.
+### 3. Start ngrok and Get Your URL
+```bash
+# In a new terminal
+ngrok http 8000
+# Copy the https URL (e.g., https://abc123.ngrok-free.dev)
+```
 
-### For ngrok/remote testing:
-
-When testing with ChatGPT via ngrok, set the `BASE_URL` environment variable to your ngrok URL:
-
+### 4. Rebuild with Your ngrok URL
 ```bash
 BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build
 ```
 
-This ensures the generated HTML files reference the correct public URL for loading CSS and JS files.
-
-**Note:** The build command runs `build-all.mts`, producing versioned `.html`, `.js`, and `.css` files inside `assets/` with content-based hashes (e.g., `pizzaz-2d2b.js`). Each widget is wrapped with the CSS it needs.
-
-To iterate on your components locally, you can also launch the Vite dev server:
-
-```bash
-pnpm run dev
-```
-
-## Serve the static assets (Optional)
-
-**The Pizzaz Node server automatically serves static assets**, so you typically don't need to run this separately when using the Node MCP server.
-
-However, if you want to preview the bundles independently, you can start the static file server:
-
-```bash
-pnpm run serve
-```
-
-The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with CORS enabled.
-
-## Run the MCP servers
-
-The repository ships several demo MCP servers that highlight different widget bundles:
-
-- **Pizzaz (Node & Python)** – pizza-inspired collection of tools and components
-- **Solar system (Python)** – 3D solar system viewer
-
-Every tool response includes plain text content, structured JSON, and `_meta.openai/outputTemplate` metadata so the Apps SDK can hydrate the matching widget.
-
-### Pizzaz Node server
-
+### 5. Start the MCP Server
 ```bash
 cd pizzaz_server_node
 pnpm start
 ```
 
-### Pizzaz Python server
+### 6. Add to ChatGPT
+1. Enable [developer mode](https://platform.openai.com/docs/guides/developer-mode)
+2. Go to Settings > Connectors
+3. Add your ngrok URL: `https://your-ngrok-url.ngrok-free.dev/mcp`
+4. Start chatting! Try: *"Show me the best pizzas on a map"*
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r pizzaz_server_python/requirements.txt
-uvicorn pizzaz_server_python.main:app --port 8000
+---
+
+## What's Included
+
+This boilerplate includes 4 example widgets showcasing different UI patterns:
+
+- **📍 Pizza Map** - Interactive map with markers
+- **🎠 Pizza Carousel** - Image carousel widget
+- **📔 Pizza Albums** - Grid/gallery layout
+- **📝 Pizza List** - Simple list view
+
+All widgets demonstrate the same MCP + Apps SDK integration pattern, just with different UIs.
+
+---
+
+## Project Structure
+
+```
+├── src/                          # Widget source code (React components)
+│   ├── pizzaz/                   # Map widget
+│   ├── pizzaz-carousel/          # Carousel widget
+│   ├── pizzaz-list/              # List widget
+│   └── pizzaz-albums/            # Gallery widget
+├── assets/                       # Built widget bundles (HTML/JS/CSS)
+├── pizzaz_server_node/           # Node MCP server
+│   └── src/server.ts             # Main server file
+├── build-all.mts                 # Build script
+└── package.json
 ```
 
-### Solar system Python server
+---
+
+## Development Workflow
+
+### Making Changes to Widgets
+
+1. **Edit your React component** in `src/your-widget/`
+2. **Rebuild**: `BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build`
+3. **Restart server**: `cd pizzaz_server_node && pnpm start`
+4. **Test in ChatGPT** - invoke the tool again
+
+### Adding a New Widget
+
+1. **Create new directory** in `src/` (e.g., `src/my-widget/`)
+2. **Add your React component** as `index.jsx`
+3. **Update `build-all.mts`** - add to `targets` array
+4. **Update `pizzaz_server_node/src/server.ts`** - add to `widgets` array
+5. **Build and test**
+
+### Local Development (without ChatGPT)
+
+For faster iteration without ChatGPT:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r solar-system_server_python/requirements.txt
-uvicorn solar-system_server_python.main:app --port 8000
+# Use Vite dev server for hot reload
+pnpm run dev
+
+# Or preview built bundles locally
+pnpm run build          # Default uses http://localhost:4444
+pnpm run serve          # Serves on :4444
 ```
 
-You can reuse the same virtual environment for all Python servers—install the dependencies once and run whichever entry point you need.
+---
 
-## Testing in ChatGPT
+## How It Works
 
-To add these apps to ChatGPT, enable [developer mode](https://platform.openai.com/docs/guides/developer-mode), and add your apps in Settings > Connectors.
+### The MCP Server
 
-### Local testing with ngrok
+The Node server (`pizzaz_server_node/src/server.ts`) does three things:
 
-The Node MCP server serves both the API endpoints and static assets from a single port (8000), making it easy to expose with ngrok.
+1. **Exposes MCP endpoints** at `/mcp` for ChatGPT to connect
+2. **Serves static assets** (CSS/JS) from the `assets/` directory
+3. **Returns widget HTML** when tools are called
 
-**Step-by-step:**
+### The Build Process
 
-1. **Build with your ngrok URL:**
+`build-all.mts` compiles your React widgets into standalone bundles:
+
+- **Generates hashed files** (e.g., `pizzaz-2d2b.js`) for cache busting
+- **Creates HTML templates** that reference the correct assets
+- **Uses BASE_URL** to set where assets load from
+
+### Widget Rendering Flow
+
+```
+User asks ChatGPT → ChatGPT calls MCP tool → Server returns HTML + metadata
+→ ChatGPT renders widget in iframe → Widget loads CSS/JS from server
+```
+
+---
+
+## Environment Variables
+
+### `BASE_URL`
+
+**Required for ngrok/production**. Sets the base URL for loading widget assets.
+
+- **Local dev**: Defaults to `http://localhost:4444`
+- **ngrok**: `BASE_URL=https://your-ngrok-url.ngrok-free.dev`
+- **Production**: `BASE_URL=https://your-production-domain.com`
+
+Usage:
+```bash
+BASE_URL=https://your-url.com pnpm run build
+```
+
+---
+
+## Troubleshooting
+
+### Widgets don't render / 404 errors
+
+**Problem**: HTML references wrong asset URLs
+
+**Solution**: Rebuild with correct BASE_URL
+```bash
+BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build
+cd pizzaz_server_node && pnpm start
+```
+
+### CORS errors
+
+**Problem**: Browser blocks cross-origin requests
+
+**Solution**: This is fixed in the latest code. Make sure you're running the updated server.
+
+### "Connector not available"
+
+**Problem**: ChatGPT can't reach your server
+
+**Solution**:
+- Check ngrok is running: `ngrok http 8000`
+- Verify MCP server is running: `cd pizzaz_server_node && pnpm start`
+- Ensure connector URL ends with `/mcp`
+
+### Changes not appearing
+
+**Problem**: Old bundle is cached
+
+**Solution**:
+1. Rebuild: `BASE_URL=... pnpm run build`
+2. Restart server: `cd pizzaz_server_node && pnpm start`
+3. Remove and re-add connector in ChatGPT
+
+---
+
+## Deployment
+
+### Production Setup
+
+1. **Deploy your server** (Heroku, Railway, Render, etc.)
+2. **Build with production URL**:
    ```bash
-   # First, start ngrok to get your URL
-   ngrok http 8000
-
-   # Copy the ngrok URL (e.g., https://abc123.ngrok-free.dev)
-   # Then rebuild with that URL:
-   BASE_URL=https://abc123.ngrok-free.dev pnpm run build
+   BASE_URL=https://your-app.com pnpm run build
    ```
+3. **Upload built assets** to your server
+4. **Run the MCP server**: `cd pizzaz_server_node && pnpm start`
+5. **Add connector** in ChatGPT: `https://your-app.com/mcp`
 
-2. **Start the MCP server:**
-   ```bash
-   cd pizzaz_server_node
-   pnpm start
-   ```
+The Node MCP server serves both API and static assets from the same domain.
 
-3. **Add to ChatGPT:**
-   - Go to Settings > Connectors
-   - Add your ngrok URL with `/mcp` endpoint: `https://abc123.ngrok-free.dev/mcp`
+---
 
-Once you add a connector, you can use it in ChatGPT conversations.
+## Customizing for Your App
 
-You can add your app to the conversation context by selecting it in the "More" options.
+### 1. Rename from "Pizzaz"
 
-![more-chatgpt](https://github.com/user-attachments/assets/26852b36-7f9e-4f48-a515-aebd87173399)
+Update these files:
+- `pizzaz_server_node/` → Rename directory
+- `pizzaz_server_node/src/server.ts` → Update server name and tool names
+- `src/pizzaz*/` → Rename widget directories
+- `build-all.mts` → Update `targets` array
 
-You can then invoke tools by asking something related. For example, for the Pizzaz app, you can ask "What are the best pizzas in town?".
+### 2. Change Widget Data
 
-## Next steps
+Edit `pizzaz_server_node/src/server.ts`:
+- Modify the `widgets` array
+- Update tool handlers in `CallToolRequestSchema`
+- Change `structuredContent` returned by tools
 
-- Customize the widget data: edit the handlers in `pizzaz_server_node/src`, `pizzaz_server_python/main.py`, or the solar system server to fetch data from your systems.
-- Create your own components and add them to the gallery: drop new entries into `src/` and they will be picked up automatically by the build script.
+### 3. Customize UI
 
-### Deploy your MCP server
+Edit React components in `src/your-widget/index.jsx`:
+- Modify JSX/styling
+- Add new components
+- Update data rendering logic
 
-You can use the cloud environment of your choice to deploy your MCP server.
+---
 
-When deploying, build your assets with the production URL:
+## Tech Stack
 
-```bash
-BASE_URL=https://your-production-server.com pnpm run build
-```
+- **MCP Server**: Node.js + [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/typescript-sdk)
+- **UI Framework**: React 19
+- **Styling**: Tailwind CSS 4
+- **Build Tool**: Vite 7
+- **Package Manager**: pnpm
 
-This ensures the generated HTML files reference your production server for loading CSS and JS files. The Node MCP server will serve both the API endpoints and static assets from the same domain.
+---
+
+## Resources
+
+- [Apps SDK Documentation](https://platform.openai.com/docs/guides/apps-sdk)
+- [MCP Specification](https://modelcontextprotocol.io/)
+- [Developer Mode](https://platform.openai.com/docs/guides/developer-mode)
+
+---
 
 ## Contributing
 
-You are welcome to open issues or submit PRs to improve this app, however, please note that we may not review all suggestions.
+Contributions welcome! Please open an issue or submit a PR.
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
+MIT License - see [LICENSE](./LICENSE) for details.
