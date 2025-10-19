@@ -344,10 +344,8 @@ const httpServer = createServer(
 
     const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
 
-    if (
-      req.method === "OPTIONS" &&
-      (url.pathname === ssePath || url.pathname === postPath)
-    ) {
+    // Handle CORS preflight for all routes
+    if (req.method === "OPTIONS") {
       res.writeHead(204, {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -365,6 +363,31 @@ const httpServer = createServer(
     if (req.method === "POST" && url.pathname === postPath) {
       await handlePostMessage(req, res, url);
       return;
+    }
+
+    // Serve static assets
+    if (req.method === "GET" && url.pathname.startsWith("/")) {
+      const filePath = path.join(ASSETS_DIR, url.pathname);
+
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        const ext = path.extname(filePath);
+        const contentTypes: Record<string, string> = {
+          ".html": "text/html",
+          ".js": "application/javascript",
+          ".css": "text/css",
+          ".json": "application/json",
+        };
+
+        const contentType = contentTypes[ext] || "application/octet-stream";
+        const content = fs.readFileSync(filePath);
+
+        res.writeHead(200, {
+          "Content-Type": contentType,
+          "Access-Control-Allow-Origin": "*",
+        });
+        res.end(content);
+        return;
+      }
     }
 
     res.writeHead(404).end("Not Found");
