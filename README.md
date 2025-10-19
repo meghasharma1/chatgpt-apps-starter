@@ -55,6 +55,53 @@ All widgets demonstrate the same MCP + Apps SDK integration pattern, just with d
 
 ---
 
+## Prompt-to-App: Build Your Own ChatGPT App
+
+**Want to build your own ChatGPT app? Just describe what you want!**
+
+This starter is optimized for use with AI assistants like **Claude** or **Cursor**. Simply describe your app idea, and the AI will guide you through building it.
+
+### How It Works
+
+The AI follows a structured 3-step process:
+
+1. **Solidify Use Case** - The AI asks questions to understand what you want to build
+2. **Define Tools** - AI generates the MCP server and tool definitions
+3. **Design Components** - AI creates the React widgets and UI
+
+### Try It Now
+
+In Claude or Cursor, say:
+
+> "I want to build a ChatGPT app that shows [YOUR IDEA HERE]"
+
+**Examples:**
+- "I want to build a ChatGPT app that shows my GitHub starred repos in a gallery"
+- "I want to build a ChatGPT app that displays my calendar events on a timeline"
+- "I want to build a ChatGPT app that visualizes my Spotify listening history"
+
+The AI will:
+1. Ask clarifying questions about your use case
+2. Auto-generate the MCP server code
+3. Create the React widget components
+4. Help you test and refine the app
+
+### For AI Assistants
+
+See [`.claude/prompt-to-app-guide.md`](./.claude/prompt-to-app-guide.md) for complete instructions on helping users build ChatGPT apps.
+
+### What Gets Generated
+
+When you work with an AI assistant, it will:
+
+- ✅ Create new widget directory in `src/`
+- ✅ Generate React components with your custom UI
+- ✅ Update MCP server with your tool definitions
+- ✅ Configure build process
+- ✅ Provide testing instructions
+
+---
+
 ## Project Structure
 
 ```
@@ -238,6 +285,31 @@ Edit React components in `src/your-widget/index.jsx`:
 - **Styling**: Tailwind CSS 4
 - **Build Tool**: Vite 7
 - **Package Manager**: pnpm
+
+---
+
+## Next Steps & Advanced Features
+
+Ready to take your app to production? Check out these guides:
+
+### 🔐 Add Authentication
+
+For apps that need to:
+- Access user-specific data from external APIs
+- Validate API keys
+- Implement OAuth flows
+
+See [`TODO-authentication.md`](./TODO-authentication.md) for implementation guide.
+
+### ⚡ Optimize Metadata
+
+Improve your ChatGPT integration with better:
+- Loading and success messages
+- Accessibility features
+- Error handling
+- Performance hints
+
+See [`TODO-metadata-optimization.md`](./TODO-metadata-optimization.md) for optimization guide.
 
 ---
 
