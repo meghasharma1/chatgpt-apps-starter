@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import markers from "../pizzaz/markers.json";
+import markers from "../example-pizza/markers.json";
 import PlaceCard from "./PlaceCard";
 
 function App() {

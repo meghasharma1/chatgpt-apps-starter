@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import markers from "../pizzaz/markers.json";
+import markers from "../example-pizza/markers.json";
 import { PlusCircle, Star } from "lucide-react";
 
 function App() {

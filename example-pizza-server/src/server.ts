@@ -91,7 +91,7 @@ const widgets: PizzazWidget[] = [
     templateUri: "ui://widget/pizza-map.html",
     invoking: "Hand-tossing a map",
     invoked: "Served a fresh map",
-    html: readWidgetHtml("pizzaz"),
+    html: readWidgetHtml("example-pizza"),
     responseText: "Rendered a pizza map!",
   },
   {
@@ -100,7 +100,7 @@ const widgets: PizzazWidget[] = [
     templateUri: "ui://widget/pizza-carousel.html",
     invoking: "Carousel some spots",
     invoked: "Served a fresh carousel",
-    html: readWidgetHtml("pizzaz-carousel"),
+    html: readWidgetHtml("example-pizza-carousel"),
     responseText: "Rendered a pizza carousel!",
   },
   {
@@ -109,7 +109,7 @@ const widgets: PizzazWidget[] = [
     templateUri: "ui://widget/pizza-albums.html",
     invoking: "Hand-tossing an album",
     invoked: "Served a fresh album",
-    html: readWidgetHtml("pizzaz-albums"),
+    html: readWidgetHtml("example-pizza-albums"),
     responseText: "Rendered a pizza album!",
   },
   {
@@ -118,7 +118,7 @@ const widgets: PizzazWidget[] = [
     templateUri: "ui://widget/pizza-list.html",
     invoking: "Hand-tossing a list",
     invoked: "Served a fresh list",
-    html: readWidgetHtml("pizzaz-list"),
+    html: readWidgetHtml("example-pizza-list"),
     responseText: "Rendered a pizza list!",
   },
 ];
@@ -180,7 +180,7 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
 function createPizzazServer(): Server {
   const server = new Server(
     {
-      name: "pizzaz-node",
+      name: "example-pizza-node",
       version: "0.1.0",
     },
     {
@@ -400,7 +400,7 @@ httpServer.on("clientError", (err: Error, socket) => {
 });
 
 httpServer.listen(port, () => {
-  console.log(`Pizzaz MCP server listening on http://localhost:${port}`);
+  console.log(`Example Pizza MCP server listening on http://localhost:${port}`);
   console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
   console.log(
     `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`
