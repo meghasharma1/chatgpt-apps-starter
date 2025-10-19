@@ -252,6 +252,26 @@ The Node MCP server serves both API and static assets from the same domain.
 
 ---
 
+## Design Guidelines & Resources
+
+### Official Design System
+
+For professional, consistent widgets, refer to OpenAI's design guidelines:
+
+- **Figma Component Library** - _Coming soon - See [Issue #3](../../issues/3) to help add this_
+- **Design Guidelines** - Follow ChatGPT's visual language
+- **Component Patterns** - Reusable UI patterns for common interactions
+
+### Design Best Practices
+
+- **Mobile-first** - ChatGPT is often used on mobile devices
+- **Accessible** - Use semantic HTML, ARIA labels, keyboard navigation
+- **Fast** - Optimize images, minimize bundle size
+- **Responsive** - Test on various screen sizes
+- **Consistent** - Use Tailwind CSS for styling consistency
+
+---
+
 ## Customizing for Your App
 
 ### 1. Rename from "Example Pizza"
@@ -323,7 +343,37 @@ See [`TODO-metadata-optimization.md`](./TODO-metadata-optimization.md) for optim
 
 ## Contributing
 
-Contributions welcome! Please open an issue or submit a PR.
+We welcome contributions! Here's how you can help:
+
+### Roadmap & Issues
+
+Check out our [GitHub Issues](../../issues) to see what needs to be done:
+
+- 🔐 [Authentication Support](../../issues/1) - Help implement OAuth and API key auth
+- ⚡ [Metadata Optimization](../../issues/2) - Improve loading messages and accessibility
+- 🎨 [Figma Component Library](../../issues/3) - Add official design resources
+- 📦 [Widget Templates](../../issues/4) - Create templates for common use cases
+- 🧪 [Testing Guide](../../issues/5) - Add comprehensive testing examples
+- 🚀 [Deployment Guides](../../issues/6) - Platform-specific deployment docs
+
+See [`GITHUB_ISSUES.md`](./GITHUB_ISSUES.md) for full details on each issue.
+
+### How to Contribute
+
+1. **Find an issue** - Check [good first issues](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+2. **Comment** - Let us know you're working on it
+3. **Fork & create a branch** - Make your changes
+4. **Test** - Ensure everything builds and works
+5. **Submit a PR** - Reference the issue in your PR description
+
+### Development Setup
+
+```bash
+git clone https://github.com/meghasharma1/chatgpt-apps-starter
+cd chatgpt-apps-starter
+pnpm install
+pnpm run build
+```
 
 ## License
 

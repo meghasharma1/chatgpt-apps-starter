@@ -1,5 +1,8 @@
 # TODO: Authentication Implementation
 
+> **📌 Tracked in:** [GitHub Issue #1](../../issues/1)
+> **Want to help?** Comment on the issue and submit a PR!
+
 This document outlines the tasks needed to add authentication to ChatGPT apps built with this starter.
 
 ## Why Authentication?

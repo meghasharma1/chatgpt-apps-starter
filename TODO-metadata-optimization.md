@@ -1,5 +1,8 @@
 # TODO: Metadata Optimization
 
+> **📌 Tracked in:** [GitHub Issue #2](../../issues/2)
+> **Want to help?** Comment on the issue and submit a PR!
+
 This document outlines tasks for optimizing MCP metadata to improve the ChatGPT integration experience.
 
 ## Why Optimize Metadata?
