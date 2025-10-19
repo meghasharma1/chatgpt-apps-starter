@@ -30,7 +30,7 @@ BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build
 
 ### 5. Start the MCP Server
 ```bash
-cd example-pizza-server
+cd mcp
 pnpm start
 ```
 
@@ -111,7 +111,7 @@ When you work with an AI assistant, it will:
 │   ├── example-pizza-list/              # List widget
 │   └── example-pizza-albums/            # Gallery widget
 ├── assets/                       # Built widget bundles (HTML/JS/CSS)
-├── example-pizza-server/           # Node MCP server
+├── mcp/                          # MCP server
 │   └── src/server.ts             # Main server file
 ├── build-all.mts                 # Build script
 └── package.json
@@ -125,7 +125,7 @@ When you work with an AI assistant, it will:
 
 1. **Edit your React component** in `src/your-widget/`
 2. **Rebuild**: `BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build`
-3. **Restart server**: `cd example-pizza-server && pnpm start`
+3. **Restart server**: `cd mcp && pnpm start`
 4. **Test in ChatGPT** - invoke the tool again
 
 ### Adding a New Widget
@@ -133,7 +133,7 @@ When you work with an AI assistant, it will:
 1. **Create new directory** in `src/` (e.g., `src/my-widget/`)
 2. **Add your React component** as `index.jsx`
 3. **Update `build-all.mts`** - add to `targets` array
-4. **Update `example-pizza-server/src/server.ts`** - add to `widgets` array
+4. **Update `mcp/src/server.ts`** - add to `widgets` array
 5. **Build and test**
 
 ### Local Development (without ChatGPT)
@@ -155,7 +155,7 @@ pnpm run serve          # Serves on :4444
 
 ### The MCP Server
 
-The Node server (`example-pizza-server/src/server.ts`) does three things:
+The Node server (`mcp/src/server.ts`) does three things:
 
 1. **Exposes MCP endpoints** at `/mcp` for ChatGPT to connect
 2. **Serves static assets** (CSS/JS) from the `assets/` directory
@@ -204,7 +204,7 @@ BASE_URL=https://your-url.com pnpm run build
 **Solution**: Rebuild with correct BASE_URL
 ```bash
 BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build
-cd example-pizza-server && pnpm start
+cd mcp && pnpm start
 ```
 
 ### CORS errors
@@ -219,7 +219,7 @@ cd example-pizza-server && pnpm start
 
 **Solution**:
 - Check ngrok is running: `ngrok http 8000`
-- Verify MCP server is running: `cd example-pizza-server && pnpm start`
+- Verify MCP server is running: `cd mcp && pnpm start`
 - Ensure connector URL ends with `/mcp`
 
 ### Changes not appearing
@@ -228,7 +228,7 @@ cd example-pizza-server && pnpm start
 
 **Solution**:
 1. Rebuild: `BASE_URL=... pnpm run build`
-2. Restart server: `cd example-pizza-server && pnpm start`
+2. Restart server: `cd mcp && pnpm start`
 3. **Check browser console** for any errors or cached assets
 4. Try a **hard refresh** in your browser (Cmd+Shift+R on Mac, Ctrl+Shift+R on Windows)
 5. If still not working: Remove and re-add the connector in ChatGPT settings
@@ -245,7 +245,7 @@ cd example-pizza-server && pnpm start
    BASE_URL=https://your-app.com pnpm run build
    ```
 3. **Upload built assets** to your server
-4. **Run the MCP server**: `cd example-pizza-server && pnpm start`
+4. **Run the MCP server**: `cd mcp && pnpm start`
 5. **Add connector** in ChatGPT: `https://your-app.com/mcp`
 
 The Node MCP server serves both API and static assets from the same domain.
@@ -277,14 +277,14 @@ For professional, consistent widgets, refer to OpenAI's design guidelines:
 ### 1. Rename from "Example Pizza"
 
 Update these files to match your app name:
-- `example-pizza-server/` → Rename directory to your app name
-- `example-pizza-server/src/server.ts` → Update server name and tool names
-- `src/example-pizza*/` → Rename widget directories
-- `build-all.mts` → Update `targets` array
+- `mcp/` → This is your MCP server directory (hosts all your widgets)
+- `mcp/src/server.ts` → Update server name and tool names
+- `src/example-pizza*/` → Rename widget directories or create new ones
+- `build-all.mts` → Update `targets` array with your widget names
 
 ### 2. Change Widget Data
 
-Edit `example-pizza-server/src/server.ts`:
+Edit `mcp/src/server.ts`:
 - Modify the `widgets` array
 - Update tool handlers in `CallToolRequestSchema`
 - Change `structuredContent` returned by tools

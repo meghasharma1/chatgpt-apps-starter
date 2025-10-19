@@ -139,7 +139,7 @@ structuredContent: {
 
 ### File to Modify
 
-Update `example-pizza-server/src/server.ts`:
+Update `mcp/src/server.ts`:
 
 1. Replace the `widgets` array with your new tool definitions
 2. Update `toolInputSchema` with your parameters
@@ -177,7 +177,7 @@ Start with the example widget that's closest to your use case:
    ```
 
 4. **Update server configuration:**
-   Update `example-pizza-server/src/server.ts` to reference your widget
+   Update `mcp/src/server.ts` to reference your widget
 
 ### Widget Props Pattern
 
@@ -220,13 +220,13 @@ cp src/example-pizza-list/index.jsx src/your-app-name/
 
 # 3. Update build targets in build-all.mts
 
-# 4. Update server configuration in example-pizza-server/src/server.ts
+# 4. Update server configuration in mcp/src/server.ts
 
 # 5. Build
 pnpm run build
 
 # 6. Start server
-cd example-pizza-server && pnpm start
+cd mcp && pnpm start
 
 # 7. Test in ChatGPT
 ```
@@ -234,7 +234,7 @@ cd example-pizza-server && pnpm start
 ### Generated Files Checklist
 
 - [ ] `src/your-app-name/index.jsx` - Main widget component
-- [ ] `example-pizza-server/src/server.ts` - Updated with new tool
+- [ ] `mcp/src/server.ts` - Updated with new tool
 - [ ] `build-all.mts` - Added to targets array
 - [ ] Any additional components or assets
 
@@ -251,7 +251,7 @@ Guide the user through testing:
 
 2. **Server starts without errors:**
    ```bash
-   cd example-pizza-server && pnpm start
+   cd mcp && pnpm start
    ```
 
 3. **Widget renders in ChatGPT:**
@@ -304,7 +304,7 @@ Let's walk through a complete example:
 ### 2. Define Tools
 
 ```typescript
-// In example-pizza-server/src/server.ts
+// In mcp/src/server.ts
 const widgets = [
   {
     id: "github-stars",
@@ -394,7 +394,7 @@ function App() {
 
 ## Reference Files
 
-- **Server:** `example-pizza-server/src/server.ts`
+- **Server:** `mcp/src/server.ts`
 - **Widget Examples:** `src/example-pizza*/`
 - **Build Config:** `build-all.mts`
 - **Hooks:** `src/use-widget-props.ts`, `src/use-max-height.ts`
@@ -407,7 +407,7 @@ chatgpt-apps-starter/
 ├── src/
 │   └── your-app-name/           # Your widget code
 │       └── index.jsx            # Main component
-├── example-pizza-server/
+├── mcp/
 │   └── src/
 │       └── server.ts            # MCP tool definitions
 ├── build-all.mts                # Build configuration

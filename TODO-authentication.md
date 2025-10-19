@@ -27,7 +27,7 @@ For production ChatGPT apps that:
 
 ### 2. Server-Side Authentication
 
-**File:** `example-pizza-server/src/server.ts`
+**File:** `mcp/src/server.ts`
 
 - [ ] Add authentication middleware
   ```typescript
@@ -54,7 +54,7 @@ For production ChatGPT apps that:
 
 ### 3. Environment Variables
 
-**File:** `example-pizza-server/.env` (create this file)
+**File:** `mcp/.env` (create this file)
 
 - [ ] Create `.env` file for secrets
   ```
@@ -71,7 +71,7 @@ For production ChatGPT apps that:
 
 - [ ] Install OAuth library
   ```bash
-  cd example-pizza-server
+  cd mcp
   pnpm add oauth4webapi
   ```
 
@@ -173,7 +173,7 @@ If your app calls external APIs:
 Here's a minimal OAuth implementation example:
 
 ```typescript
-// example-pizza-server/src/auth.ts
+// mcp/src/auth.ts
 import { generateAuthURL, exchangeCodeForToken } from './oauth-helpers';
 
 export async function handleGitHubAuth(req: IncomingMessage, res: ServerResponse) {

@@ -177,10 +177,10 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
   _meta: widgetMeta(widget),
 }));
 
-function createPizzazServer(): Server {
+function createMCPServer(): Server {
   const server = new Server(
     {
-      name: "example-pizza-node",
+      name: "mcp-server",
       version: "0.1.0",
     },
     {
@@ -275,7 +275,7 @@ const postPath = "/mcp/messages";
 
 async function handleSseRequest(res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  const server = createPizzazServer();
+  const server = createMCPServer();
   const transport = new SSEServerTransport(postPath, res);
   const sessionId = transport.sessionId;
 
@@ -367,7 +367,7 @@ const httpServer = createServer(
 
     // Serve static assets
     if (req.method === "GET" && url.pathname.startsWith("/")) {
-      const filePath = path.join(ASSETS_DIR, url.pathname);
+      const filePath = path.join(ASSETS_DIR, url.pathname.slice(1));
 
       if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
         const ext = path.extname(filePath);
@@ -400,7 +400,7 @@ httpServer.on("clientError", (err: Error, socket) => {
 });
 
 httpServer.listen(port, () => {
-  console.log(`Example Pizza MCP server listening on http://localhost:${port}`);
+  console.log(`MCP server listening on http://localhost:${port}`);
   console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
   console.log(
     `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`

@@ -36,7 +36,7 @@ _meta: {
 
 **TODO:** Make messages contextual and informative
 
-- [ ] Review all `invoking` messages in `example-pizza-server/src/server.ts`
+- [ ] Review all `invoking` messages in `mcp/src/server.ts`
 - [ ] Update to be specific to user action
   ```typescript
   // ❌ Bad
@@ -108,7 +108,7 @@ _meta: {
 
 ### 5. Tool Annotations
 
-**File:** `example-pizza-server/src/server.ts`
+**File:** `mcp/src/server.ts`
 
 Current annotations:
 ```typescript

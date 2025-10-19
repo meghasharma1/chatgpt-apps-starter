@@ -1,9 +1,9 @@
 {
-  "name": "example-pizza-mcp-node",
+  "name": "mcp-server",
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Example MCP server that exposes the example pizza demo widgets using the official TypeScript SDK.",
+  "description": "MCP server that exposes ChatGPT app widgets using the official TypeScript SDK.",
   "scripts": {
     "start": "tsx src/server.ts"
   },
