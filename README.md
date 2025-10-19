@@ -48,11 +48,25 @@ pnpm install
 
 The components are bundled into standalone assets that the MCP servers serve as reusable UI resources.
 
+### For local development (default):
+
 ```bash
 pnpm run build
 ```
 
-This command runs `build-all.mts`, producing versioned `.html`, `.js`, and `.css` files inside `assets/`. Each widget is wrapped with the CSS it needs so you can host the bundles directly or ship them with your own server.
+This builds assets that reference `http://localhost:4444` for local testing.
+
+### For ngrok/remote testing:
+
+When testing with ChatGPT via ngrok, set the `BASE_URL` environment variable to your ngrok URL:
+
+```bash
+BASE_URL=https://your-ngrok-url.ngrok-free.dev pnpm run build
+```
+
+This ensures the generated HTML files reference the correct public URL for loading CSS and JS files.
+
+**Note:** The build command runs `build-all.mts`, producing versioned `.html`, `.js`, and `.css` files inside `assets/` with content-based hashes (e.g., `pizzaz-2d2b.js`). Each widget is wrapped with the CSS it needs.
 
 To iterate on your components locally, you can also launch the Vite dev server:
 
@@ -60,15 +74,17 @@ To iterate on your components locally, you can also launch the Vite dev server:
 pnpm run dev
 ```
 
-## Serve the static assets
+## Serve the static assets (Optional)
 
-If you want to preview the generated bundles without the MCP servers, start the static file server after running a build:
+**The Pizzaz Node server automatically serves static assets**, so you typically don't need to run this separately when using the Node MCP server.
+
+However, if you want to preview the bundles independently, you can start the static file server:
 
 ```bash
 pnpm run serve
 ```
 
-The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with CORS enabled so that local tooling (including MCP inspectors) can fetch them.
+The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with CORS enabled.
 
 ## Run the MCP servers
 
@@ -110,17 +126,31 @@ You can reuse the same virtual environment for all Python servers—install the 
 
 To add these apps to ChatGPT, enable [developer mode](https://platform.openai.com/docs/guides/developer-mode), and add your apps in Settings > Connectors.
 
-To add your local server without deploying it, you can use a tool like [ngrok](https://ngrok.com/) to expose your local server to the internet.
+### Local testing with ngrok
 
-For example, once your mcp servers are running, you can run:
+The Node MCP server serves both the API endpoints and static assets from a single port (8000), making it easy to expose with ngrok.
 
-```bash
-ngrok http 8000
-```
+**Step-by-step:**
 
-You will get a public URL that you can use to add your local server to ChatGPT in Settings > Connectors.
+1. **Build with your ngrok URL:**
+   ```bash
+   # First, start ngrok to get your URL
+   ngrok http 8000
 
-For example: `https://<custom_endpoint>.ngrok-free.app/mcp`
+   # Copy the ngrok URL (e.g., https://abc123.ngrok-free.dev)
+   # Then rebuild with that URL:
+   BASE_URL=https://abc123.ngrok-free.dev pnpm run build
+   ```
+
+2. **Start the MCP server:**
+   ```bash
+   cd pizzaz_server_node
+   pnpm start
+   ```
+
+3. **Add to ChatGPT:**
+   - Go to Settings > Connectors
+   - Add your ngrok URL with `/mcp` endpoint: `https://abc123.ngrok-free.dev/mcp`
 
 Once you add a connector, you can use it in ChatGPT conversations.
 
@@ -139,13 +169,13 @@ You can then invoke tools by asking something related. For example, for the Pizz
 
 You can use the cloud environment of your choice to deploy your MCP server.
 
-Include this in the environment variables:
+When deploying, build your assets with the production URL:
 
-```
-BASE_URL=https://your-server.com
+```bash
+BASE_URL=https://your-production-server.com pnpm run build
 ```
 
-This will be used to generate the HTML for the widgets so that they can serve static assets from this hosted url.
+This ensures the generated HTML files reference your production server for loading CSS and JS files. The Node MCP server will serve both the API endpoints and static assets from the same domain.
 
 ## Contributing
 
